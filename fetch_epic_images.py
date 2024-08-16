@@ -1,3 +1,4 @@
+import argparse
 import os
 import datetime
 from pathlib import Path
@@ -5,16 +6,14 @@ from pathlib import Path
 import requests
 from dotenv import load_dotenv
 
-from helper import download_image
+from download_utilities import download_image
 
 load_dotenv()
 
-URL = "https://api.nasa.gov/EPIC/api/natural/images"
 
-
-def fetch_image_info(count, api_key):
+def fetch_image_info(count, key):
     url = "https://api.nasa.gov/EPIC/api/natural/images"
-    params = {'api_key': api_key}
+    params = {'api_key': key}
     response = requests.get(url, params)
     return response.json()[:count]
 
@@ -26,7 +25,8 @@ def generate_url_for_image(image):
     return f"https://api.nasa.gov/EPIC/archive/natural/{date}/png/{image_id}.png"
 
 
-def download_nasa_epic(folder, api_key, count):
+def download_nasa_epic(folder, count):
+    api_key = os.environ['API_KEY']
     images = fetch_image_info(count, api_key)
     for i, image in enumerate(images):
         url = generate_url_for_image(image)
@@ -36,7 +36,10 @@ def download_nasa_epic(folder, api_key, count):
 
 
 if __name__ == '__main__':
-    api_key = os.environ['API_KEY']
-    folder = 'EPIC'
-    os.makedirs(folder, exist_ok=True)
-    download_nasa_epic(folder, api_key, count=5)
+    parser = argparse.ArgumentParser(
+        description='Скачивает последние count Изображений Земли')
+    parser.add_argument('count', nargs='?', default=5, help='Количество картинок')
+    parser.add_argument('folder', nargs='?', default='epic', help='Имя папки для сохранения')
+    args = parser.parse_args()
+    os.makedirs(args.folder, exist_ok=True)
+    download_nasa_epic(args.folder, args.count)
