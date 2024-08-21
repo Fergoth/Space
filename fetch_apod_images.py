@@ -18,8 +18,8 @@ def download_image(image_url: str, path: Path) -> None:
 
 
 def get_urls_for_apod(n: int) -> list[str]:
-    api_key = os.environ['API_KEY']
-    url = "https://api.nasa.gov/planetary/apod"
+    api_key = os.environ['API_NASA_KEY']
+    url = 'https://api.nasa.gov/planetary/apod'
     params = {'api_key': api_key, 'count': n}
     response = requests.get(url, params)
     return [i['hdurl'] for i in response.json() if 'hdurl' in i]
@@ -29,7 +29,7 @@ def download_nasa_apod(folder_for_pictures: str, count: int) -> None:
     urls = get_urls_for_apod(count)
     for i, url in enumerate(urls):
         ext = get_file_extension(url)
-        filename = f"nasa_apod_{i}{ext}"
+        filename = f'nasa_apod_{i}{ext}'
         filepath = Path(folder_for_pictures, filename)
         download_image(url, filepath)
 

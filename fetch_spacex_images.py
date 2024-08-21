@@ -9,17 +9,17 @@ from download_utilities import download_image, get_file_extension
 def get_links_last_launch_with_pictures() -> list[str]:
     url = 'https://api.spacexdata.com/v5/launches/query'
     data = {
-        "query": {
-            "links.flickr.original": {"$ne": []},
-            "upcoming": "false"
+        'query': {
+            'links.flickr.original': {'$ne': []},
+            'upcoming': 'false',
 
         },
-        "options": {
-            "limit": 1,
-            "select": "links.flickr.original",
-            "sort": {
-                "flight_number": "asc"
-            }}
+        'options': {
+            'limit': 1,
+            'select': 'links.flickr.original',
+            'sort': {
+                'flight_number': 'asc',
+            }},
     }
     response = requests.post(url, json=data)
     response.raise_for_status()
@@ -27,7 +27,7 @@ def get_links_last_launch_with_pictures() -> list[str]:
 
 
 def get_links_by_id(launch_id):
-    url = f"https://api.spacexdata.com/v5/launches/{launch_id}"
+    url = f'https://api.spacexdata.com/v5/launches/{launch_id}'
     response = requests.get(url)
     response.raise_for_status()
     return response.json()['links']['flickr']['original']
@@ -41,12 +41,12 @@ def fetch_spacex_launch(folder_for_pictures, launch_id):
 
     for i, url in enumerate(picture_urls):
         ext = get_file_extension(url)
-        filename = f"spacex_{i}{ext}"
+        filename = f'spacex_{i}{ext}'
         filepath = Path(folder_for_pictures, filename)
         download_image(url, filepath)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Скачивает последний запуск spacex c картинками, если передать id '
                     'скачивает картинку по id')
