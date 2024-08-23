@@ -27,7 +27,7 @@ pip install -r requirements.txt
    count, folder, количество скачиваемых фотографий и имя папки для скачивания
     * Значения по умолчанию(5,epic)
     ```
-        python fetch_epic_images.py 20 folder
+        python fetch_epic_images.py 5 epic
     ```
     * Фотографии дня с изображениями космоса с сайта NASA:
     * В фотографиях дня не всегда есть фотографии, так что количество полученых фотографий может быть меньше чем указано
@@ -36,7 +36,7 @@ pip install -r requirements.txt
 
    * Значения по умолчанию(5,apod)
     ```
-        python fetch_apod_images.py 15 folder
+        python fetch_apod_images.py 5 apod
     ```
    * Фотографии с запуска ракет SpaceX(первым параметром указываем ID запуска, а если он не указан, то скачиваются фотографии последнего запуска):
 
@@ -55,13 +55,13 @@ pip install -r requirements.txt
    * Чтобы отправить все фотографии из images с задержкой(можем указать в параметре -t задержку между фотографиями, то используется переменная окружения из .env):
 
      ```
-         python telegram_bot.py  100 images
+         python telegram_bot_auto_posting_images.py  100 apod
      ```
 
      * Чтобы отправить один файл из folder = apod 
 
      ```
-         python publish_photo.py  nasa_apod_0.jpg
+         python telegram_bot_publish_photo.py  nasa_apod_0.jpg
      ```
 
 ### Цель проекта
