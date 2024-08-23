@@ -55,13 +55,13 @@ pip install -r requirements.txt
    * Чтобы отправить все фотографии из images с задержкой(можем указать в параметре -t задержку между фотографиями, то используется переменная окружения из .env):
 
      ```
-         python telegram_bot.py  100 images
+         python telegram_bot_auto_posting_images.py  100 images
      ```
 
      * Чтобы отправить один файл из folder = apod 
 
      ```
-         python publish_photo.py  nasa_apod_0.jpg
+         python telegram_bot_publish_photo.py  nasa_apod_0.jpg
      ```
 
 ### Цель проекта
