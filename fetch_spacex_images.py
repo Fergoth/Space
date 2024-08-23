@@ -33,17 +33,11 @@ def get_links_by_id(launch_id):
     return response.json()['links']['flickr']['original']
 
 
-def fetch_spacex_launch(folder_for_pictures, launch_id):
-    if launch_id:
-        picture_urls = get_links_by_id(launch_id)
-    else:
-        picture_urls = get_links_last_launch_with_pictures()
-
-    for i, url in enumerate(picture_urls):
-        ext = get_file_extension(url)
-        filename = f'spacex_{i}{ext}'
-        filepath = Path(folder_for_pictures, filename)
-        download_image(url, filepath)
+def fetch_spacex_launch(folder_for_pictures, i):
+    ext = get_file_extension(url)
+    filename = f'spacex_{i}{ext}'
+    filepath = Path(folder_for_pictures, filename)
+    download_image(url, filepath)
 
 
 if __name__ == '__main__':
@@ -54,4 +48,9 @@ if __name__ == '__main__':
     parser.add_argument('folder', nargs='?', default='space_x', help='Имя папки для сохранения')
     args = parser.parse_args()
     os.makedirs(args.folder, exist_ok=True)
-    fetch_spacex_launch(args.folder, args.id)
+    if args.id:
+        picture_urls = get_links_by_id(args.id)
+    else:
+        picture_urls = get_links_last_launch_with_pictures()
+    for i, url in enumerate(picture_urls):
+        fetch_spacex_launch(args.folder, i)
