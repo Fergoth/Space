@@ -7,8 +7,6 @@ from dotenv import load_dotenv
 
 from download_utilities import get_file_extension
 
-load_dotenv()
-
 
 def download_image(image_url: str, path: Path) -> None:
     response = requests.get(image_url)
@@ -35,6 +33,7 @@ def download_nasa_apod(folder_for_pictures: str, count: int) -> None:
 
 
 if __name__ == '__main__':
+    load_dotenv()
     parser = argparse.ArgumentParser(
         description='Скачивает последние изображения дня')
     parser.add_argument('count', nargs='?', default=5, help='Количество картинок')

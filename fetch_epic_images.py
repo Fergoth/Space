@@ -8,8 +8,6 @@ from dotenv import load_dotenv
 
 from download_utilities import download_image
 
-load_dotenv()
-
 
 def fetch_image_info(count, key):
     url = 'https://api.nasa.gov/EPIC/api/natural/images'
@@ -36,9 +34,10 @@ def download_nasa_epic(folder, count):
 
 
 if __name__ == '__main__':
+    load_dotenv()
     parser = argparse.ArgumentParser(
         description='Скачивает последние count Изображений Земли')
-    parser.add_argument('count', nargs='?', default=5, help='Количество картинок')
+    parser.add_argument('count', nargs='?', type=int, default=5, help='Количество картинок')
     parser.add_argument('folder', nargs='?', default='epic', help='Имя папки для сохранения')
     args = parser.parse_args()
     os.makedirs(args.folder, exist_ok=True)

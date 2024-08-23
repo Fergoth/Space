@@ -6,8 +6,6 @@ from pathlib import Path
 import telegram
 from dotenv import load_dotenv
 
-load_dotenv()
-
 
 def get_filename(filename):
     if filename:
@@ -17,6 +15,7 @@ def get_filename(filename):
 
 
 if __name__ == '__main__':
+    load_dotenv()
     parser = argparse.ArgumentParser(
         description='Постит одну картинку в чат')
     parser.add_argument('filename', nargs='?', default=None, help='Имя файла для отправки')

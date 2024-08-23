@@ -7,14 +7,13 @@ import telegram
 
 from dotenv import load_dotenv
 
-load_dotenv()
-
 
 def get_all_files_in_folder(folder):
     return list(os.walk(folder))[0]
 
 
 if __name__ == '__main__':
+    load_dotenv()
     max_picture_size = 20 * 1024 * 1024
     freq = int(os.environ['POST_FREQ'])
     chat_id = os.environ['CHAT_ID']
