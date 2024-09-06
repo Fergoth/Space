@@ -5,18 +5,10 @@ from pathlib import Path
 import requests
 from dotenv import load_dotenv
 
-from download_utilities import get_file_extension
+from download_utilities import get_file_extension, download_image
 
 
-def download_image(image_url: str, path: Path) -> None:
-    response = requests.get(image_url)
-    response.raise_for_status()
-    with open(path, 'wb') as f:
-        f.write(response.content)
-
-
-def get_urls_for_apod(n: int) -> list[str]:
-    api_key = os.environ['API_NASA_KEY']
+def get_urls_for_apod(n: int,api_key : str) -> list[str]:
     url = 'https://api.nasa.gov/planetary/apod'
     params = {'api_key': api_key, 'count': n}
     response = requests.get(url, params)
@@ -37,6 +29,7 @@ if __name__ == '__main__':
     parser.add_argument('count', nargs='?', default=5, help='Количество картинок')
     parser.add_argument('folder', nargs='?', default='apod', help='Имя папки для сохранения')
     args = parser.parse_args()
+    api_key = os.environ['API_NASA_KEY']
     os.makedirs(args.folder, exist_ok=True)
-    for suffix_for_filename, url in enumerate(get_urls_for_apod(args.count)) :
+    for suffix_for_filename, url in enumerate(get_urls_for_apod(args.count,api_key)) :
         download_nasa_apod(args.folder, suffix_for_filename)
