@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from download_utilities import download_image
 
 
-def fetch_image_info(count, key):
+def fetch_images(count, key):
     url = 'https://api.nasa.gov/EPIC/api/natural/images'
     params = {'api_key': key}
     response = requests.get(url, params)
@@ -23,7 +23,7 @@ def generate_url_for_image(image):
     return f'https://api.nasa.gov/EPIC/archive/natural/{date}/png/{image_id}.png'
 
 
-def download_nasa_epic(folder, suffix_for_filename):
+def download_nasa_epic(folder, suffix_for_filename, image):
     url = generate_url_for_image(image)
     filename = f'nasa_epic_{suffix_for_filename}.png'
     filepath = Path(folder, filename)
@@ -41,4 +41,4 @@ if __name__ == '__main__':
     os.makedirs(args.folder, exist_ok=True)
     images = fetch_image_info(args.count, api_key)
     for suffix_for_filename, image in enumerate(images):
-        download_nasa_epic(args.folder, suffix_for_filename)
+        download_nasa_epic(args.folder, suffix_for_filename, image)
