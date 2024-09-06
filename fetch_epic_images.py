@@ -39,6 +39,6 @@ if __name__ == '__main__':
     parser.add_argument('folder', nargs='?', default='epic', help='Имя папки для сохранения')
     args = parser.parse_args()
     os.makedirs(args.folder, exist_ok=True)
-    images = fetch_image_info(args.count, api_key)
+    images = fetch_images(args.count, api_key)
     for suffix_for_filename, image in enumerate(images):
         download_nasa_epic(args.folder, suffix_for_filename, image)
