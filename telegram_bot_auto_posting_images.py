@@ -30,7 +30,7 @@ if __name__ == '__main__':
             filepath = os.path.join(root, name)
             if os.path.getsize(filepath) > max_picture_size:
                 continue
-            bot.send_document(chat_id=chat_id,
-                              document=open(filepath, 'rb'))
+            with open(filepath, 'rb') as f:
+                bot.send_document(chat_id=chat_id, document=f)
             sleep(args.freq)
         shuffle(filenames)

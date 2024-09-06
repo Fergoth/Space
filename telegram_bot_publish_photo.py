@@ -29,4 +29,5 @@ if __name__ == '__main__':
         filename = get_filename(args.filename)
         filepath = Path(folder, filename)
         if filepath.exists():
-            bot.send_document(chat_id=chat_id, document=open(filepath, 'rb'))
+            with open(filepath, 'rb') as f:
+                bot.send_document(chat_id=chat_id, document=f)
