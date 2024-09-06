@@ -33,9 +33,9 @@ def get_links_by_id(launch_id):
     return response.json()['links']['flickr']['original']
 
 
-def fetch_spacex_launch(folder_for_pictures, i):
+def fetch_spacex_launch(folder_for_pictures, suffix_for_filename):
     ext = get_file_extension(url)
-    filename = f'spacex_{i}{ext}'
+    filename = f'spacex_{suffix_for_filename}{ext}'
     filepath = Path(folder_for_pictures, filename)
     download_image(url, filepath)
 
@@ -52,5 +52,5 @@ if __name__ == '__main__':
         picture_urls = get_links_by_id(args.id)
     else:
         picture_urls = get_links_last_launch_with_pictures()
-    for i, url in enumerate(picture_urls):
-        fetch_spacex_launch(args.folder, i)
+    for suffix_for_filename, url in enumerate(picture_urls):
+        fetch_spacex_launch(args.folder, suffix_for_filename)

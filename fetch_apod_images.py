@@ -23,9 +23,9 @@ def get_urls_for_apod(n: int) -> list[str]:
     return [i['hdurl'] for i in response.json() if 'hdurl' in i]
 
 
-def download_nasa_apod(folder_for_pictures: str, i : int) -> None:
+def download_nasa_apod(folder_for_pictures: str, suffix_for_filename : int) -> None:
     ext = get_file_extension(url)
-    filename = f'nasa_apod_{i}{ext}'
+    filename = f'nasa_apod_{suffix_for_filename}{ext}'
     filepath = Path(folder_for_pictures, filename)
     download_image(url, filepath)
 
@@ -38,5 +38,5 @@ if __name__ == '__main__':
     parser.add_argument('folder', nargs='?', default='apod', help='Имя папки для сохранения')
     args = parser.parse_args()
     os.makedirs(args.folder, exist_ok=True)
-    for i, url in enumerate(get_urls_for_apod(args.count)) :
-        download_nasa_apod(args.folder, i)
+    for suffix_for_filename, url in enumerate(get_urls_for_apod(args.count)) :
+        download_nasa_apod(args.folder, suffix_for_filename)

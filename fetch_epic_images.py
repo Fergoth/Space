@@ -23,9 +23,9 @@ def generate_url_for_image(image):
     return f'https://api.nasa.gov/EPIC/archive/natural/{date}/png/{image_id}.png'
 
 
-def download_nasa_epic(folder, i):
+def download_nasa_epic(folder, suffix_for_filename):
     url = generate_url_for_image(image)
-    filename = f'nasa_epic_{i}.png'
+    filename = f'nasa_epic_{suffix_for_filename}.png'
     filepath = Path(folder, filename)
     download_image(url, filepath, api_key)
 
@@ -40,5 +40,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     os.makedirs(args.folder, exist_ok=True)
     images = fetch_image_info(args.count, api_key)
-    for i, image in enumerate(images):
-        download_nasa_epic(args.folder, i)
+    for suffix_for_filename, image in enumerate(images):
+        download_nasa_epic(args.folder, suffix_for_filename)
