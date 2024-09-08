@@ -21,8 +21,8 @@ if __name__ == '__main__':
     parser.add_argument('filename', nargs='?', default=None, help='Имя файла для отправки')
     parser.add_argument('folder', nargs='?', default='apod', help='Имя папки откуда постится фото')
     args = parser.parse_args()
-    token = os.environ['BOT_API']
-    chat_id = os.environ['CHAT_ID']
+    token = os.environ['TG_BOT_API']
+    chat_id = os.environ['TG_CHAT_ID']
     bot = telegram.Bot(token=token)
     folder = Path(args.folder)
     if folder.exists():

@@ -16,13 +16,13 @@ if __name__ == '__main__':
     load_dotenv()
     max_picture_size = 20 * 1024 * 1024
     freq = int(os.environ['POST_FREQ'])
-    chat_id = os.environ['CHAT_ID']
+    chat_id = os.environ['TG_CHAT_ID']
     parser = argparse.ArgumentParser(
         description='Скрипт для публикации фотографий')
     parser.add_argument('freq', nargs='?', type=int, default=freq, help='частота публикации')
     parser.add_argument('folder', nargs='?', default='space_x', help='Имя папки для сохранения')
     args = parser.parse_args()
-    token = os.environ['BOT_API']
+    token = os.environ['TG_BOT_API']
     bot = telegram.Bot(token=token)
     root, _, filenames = get_all_files_in_folder(args.folder)
     while True:
