@@ -12,7 +12,11 @@ def get_urls_for_apod(n: int,api_key : str) -> list[str]:
     url = 'https://api.nasa.gov/planetary/apod'
     params = {'api_key': api_key, 'count': n}
     response = requests.get(url, params)
-    return [i['hdurl'] for i in response.json() if 'hdurl' in i]
+    response.raise_for_status()
+    decoded_response = response.json()
+    if 'error' in decoded_response:
+        raise requests.exceptions.HTTPError(decoded_response['error'])
+    return [i['hdurl'] for i in decoded_response if 'hdurl' in i]
 
 
 def download_nasa_apod(folder_for_pictures: str, suffix_for_filename : int) -> None:
@@ -31,5 +35,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
     api_key = os.environ['API_NASA_KEY']
     os.makedirs(args.folder, exist_ok=True)
-    for suffix_for_filename, url in enumerate(get_urls_for_apod(args.count,api_key)) :
-        download_nasa_apod(args.folder, suffix_for_filename)
+    try:
+        urls_for_apod = get_urls_for_apod(args.count,api_key)
+        for suffix_for_filename, url in enumerate(urls_for_apod):
+            download_nasa_apod(args.folder, suffix_for_filename)
+    except requests.HTTPError as error:
+        print("Некорректный ответ от сервера",error)
+

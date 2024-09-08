@@ -13,6 +13,10 @@ def fetch_images(count, key):
     url = 'https://api.nasa.gov/EPIC/api/natural/images'
     params = {'api_key': key}
     response = requests.get(url, params)
+    response.raise_for_status()
+    decoded_response = response.json()
+    if 'error' in decoded_response:
+        raise requests.exceptions.HTTPError(decoded_response['error'])
     return response.json()[:count]
 
 
@@ -39,6 +43,9 @@ if __name__ == '__main__':
     parser.add_argument('folder', nargs='?', default='epic', help='Имя папки для сохранения')
     args = parser.parse_args()
     os.makedirs(args.folder, exist_ok=True)
-    images = fetch_images(args.count, api_key)
-    for suffix_for_filename, image in enumerate(images):
-        download_nasa_epic(args.folder, suffix_for_filename, image)
+    try:
+        images = fetch_images(args.count, api_key)
+        for suffix_for_filename, image in enumerate(images):
+            download_nasa_epic(args.folder, suffix_for_filename, image)
+    except requests.HTTPError as error:
+        print("Некорректный ответ от сервера",error)
